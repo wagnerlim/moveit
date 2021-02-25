@@ -50,6 +50,8 @@ npv run dev
 
 <img src="https://img.shields.io/static/v1?label=Next.js&message=FrameWork&color=000006&style=for-the-badge&logo=Next.js" align="left"/>
 
+
+
 ---
 
 <h2>

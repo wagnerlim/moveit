@@ -32,8 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
-README.md
-README.md
 pages/index.js
 pages/index.js
 pages/api/hello.js
