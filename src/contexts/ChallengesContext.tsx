@@ -5,7 +5,6 @@ interface Challenge {
   type: 'body' | 'eye';
   description: string;
   amount: number;
-
 }
 
 interface ChallengsContextData {
@@ -18,6 +17,7 @@ interface ChallengsContextData {
   levelUp: () => void;
   resetChallenge: () => void;
   completeChallenge: () => void;
+  //implemente a função failedChallenge aqui
   failedChallenge: () => void;
 }
 
@@ -83,7 +83,7 @@ export function ChallengesProvider({ children }: ChalllengesProviderProps) {
     setActiveChallenge(null);
     setChallengesCompleted(challengesCompleted + 1);
   }
-
+//Parte da mudança que fiz para a perca de exp
   function failedChallenge() {
     const { amount } = activeChallenge;
     let loseExp = amount / 2;
@@ -120,6 +120,7 @@ export function ChallengesProvider({ children }: ChalllengesProviderProps) {
         resetChallenge,
         experienceToNextLevel,
         completeChallenge,
+      //e aqui também
         failedChallenge
 
       }}

@@ -46,14 +46,14 @@
     display: flex;
     flex-direction: column;
 }
-
+/* fiz a mudança no style aqui removendo o padding e o border bottom e mudei para Succeeded text */ 
 .challengeSucceededText{
     color: var(--blue);
     font-weight: 600;
     font-size: 1.25rem;
     
 }
-
+/* e adicionei esse novo para mudar a cor da parte que perde exp */ 
 .challengeFailText {
     color: var(--red);
     font-weight: 600;
