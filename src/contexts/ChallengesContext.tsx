@@ -1,88 +1,99 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import challenges from '../../challenges.json'
 
 interface Challenge {
-   type: 'body' | 'eye';
-   description: string;
-   amount: number;
+  type: 'body' | 'eye';
+  description: string;
+  amount: number;
 
 }
 
 interface ChallengsContextData {
-   level: number;
-   activeChallenge: Challenge;
-   experienceToNextLevel:number;
-   currentExperience: number;
-   challengesCompleted: number;
-   startNewChallenge: () => void;
-   levelUp: () => void;
-   resetChallenge: () => void;
-   completeChallenge: () => void;
-
+  level: number;
+  activeChallenge: Challenge;
+  experienceToNextLevel: number;
+  currentExperience: number;
+  challengesCompleted: number;
+  startNewChallenge: () => void;
+  levelUp: () => void;
+  resetChallenge: () => void;
+  completeChallenge: () => void;
 }
 
 interface ChalllengesProviderProps {
-   children: ReactNode;
+  children: ReactNode;
 }
 
 export const ChallengesContext = createContext({} as ChallengsContextData);
 
 export function ChallengesProvider({ children }: ChalllengesProviderProps) {
-   const [level, setLevel] = useState(1);
-   const [currentExperience, setCurrentExperience] = useState(0);
-   const [challengesCompleted, setChallengesCompleted] = useState(0);
-   const [activeChallenge, setActiveChallenge] = useState(null);
+  const [level, setLevel] = useState(1);
+  const [currentExperience, setCurrentExperience] = useState(0);
+  const [challengesCompleted, setChallengesCompleted] = useState(0);
+  const [activeChallenge, setActiveChallenge] = useState(null);
 
-   const experienceToNextLevel = Math.pow((level + 1) * 4,2);
+  const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
 
-   function levelUp() {
-      setLevel(level + 1);
-   }
+  useEffect(() => {
+    Notification.requestPermission();
+  }, [])
 
-   function startNewChallenge() {
-     const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
-     const challenge = challenges[randomChallengeIndex];
+  function levelUp() {
+    setLevel(level + 1);
+  }
 
-     setActiveChallenge(challenge);
-   }
+  function startNewChallenge() {
+    const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
+    const challenge = challenges[randomChallengeIndex];
 
-   function resetChallenge() {
-      setActiveChallenge(null);
-   }
+    setActiveChallenge(challenge);
 
-   function completeChallenge() {
-      if (!activeChallenge){
-         return;
-      }
-      const { amount } = activeChallenge;
-      let finalExperience = currentExperience + amount;
+    new Audio('/notification.mp3').play;
 
-      if(finalExperience >= experienceToNextLevel) {
-         finalExperience = finalExperience + experienceToNextLevel;
-         levelUp();
-      }
+    if (Notification.permission === 'granted') {
+      new Notification('Novo desafio 🦾', {
+        body: `Valendo ${challenge.amount}xp!`
+      })
+    }
+  }
 
-      setCurrentExperience(finalExperience);
-      setActiveChallenge(null);
-      setChallengesCompleted(challengesCompleted + 1);
-   }
+  function resetChallenge() {
+    setActiveChallenge(null);
+  }
 
-   return (
-      <ChallengesContext.Provider
-         value={{
-            level,
-            levelUp,
-            currentExperience,
-            challengesCompleted,
-            startNewChallenge,
-            activeChallenge,
-            resetChallenge,
-            experienceToNextLevel,
-            completeChallenge
+  function completeChallenge() {
+    if (!activeChallenge) {
+      return;
+    }
+    const { amount } = activeChallenge;
+    let finalExperience = currentExperience + amount;
 
-         }}
-      >
-         {children}
-      </ChallengesContext.Provider>
-   );
+    if (finalExperience >= experienceToNextLevel) {
+      finalExperience = finalExperience + experienceToNextLevel;
+      levelUp();
+    }
+
+    setCurrentExperience(finalExperience);
+    setActiveChallenge(null);
+    setChallengesCompleted(challengesCompleted + 1);
+  }
+
+  return (
+    <ChallengesContext.Provider
+      value={{
+        level,
+        levelUp,
+        currentExperience,
+        challengesCompleted,
+        startNewChallenge,
+        activeChallenge,
+        resetChallenge,
+        experienceToNextLevel,
+        completeChallenge
+
+      }}
+    >
+      {children}
+    </ChallengesContext.Provider>
+  );
 }
