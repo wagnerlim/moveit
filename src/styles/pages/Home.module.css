@@ -1,0 +1,20 @@
+.container{
+    /* vh = view port height ele sempre vai ocupar a altura total */  
+   height: 100vh;
+   max-width: 992px;
+   margin: 0 auto;
+   padding: 2.5rem 2rem;
+  
+   display: flex;
+   flex-direction: column;
+  }
+
+  .container section {
+    flex: 1;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6.25rem;
+    /* 6.25 rem = 100pixel no desktop e vai dimunir conforme a tela diminui*/
+    align-content: center;
+  }
