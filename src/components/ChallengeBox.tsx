@@ -22,8 +22,8 @@ export function ChallengeBox() {
     <div className={styles.challengeBoxContainer}>
       { activeChallenge ? (
         <div className={styles.challengeActive}>
-          <header>Ganhe {activeChallenge.amount} xp</header>
-          <header>Se falhar perderá </header>
+          <header className={styles.challengeSucceededText}>Ganhe {activeChallenge.amount} xp</header>
+          <header className={styles.challengeFailText}>Se falhar perderá {activeChallenge.amount / 2}</header>
 
           <main>
             <img src={`icons/${activeChallenge.type}.svg`} alt="" />

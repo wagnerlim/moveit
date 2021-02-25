@@ -47,13 +47,19 @@
     flex-direction: column;
 }
 
-.challengeActive header{
+.challengeSucceededText{
     color: var(--blue);
+    font-weight: 600;
+    font-size: 1.25rem;
+    
+}
+
+.challengeFailText {
+    color: var(--red);
     font-weight: 600;
     font-size: 1.25rem;
     padding: 0 2rem 1.5rem;
     border-bottom: 1px solid var(--gray-line);
-
 }
 
 .challengeActive main{
