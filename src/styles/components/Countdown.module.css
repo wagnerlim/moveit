@@ -60,8 +60,15 @@
     transition: background-color 0.2s;
 }
 
+.countdownButtonActive > span > img {
+    align-items: center;
+    margin-top: 0.4rem;
+    
+}
+
 .countdownButton:not(:disabled):hover {
     background: var(--blue-dark);
+    outline-color: var(--blue-dark);
 }
 
 .countdownButtonActive {
@@ -72,6 +79,7 @@
 .countdownButtonActive:not(:disabled):hover {
     background: var(--red);
     color: (--white);
+    outline-color: var(--red);
     
 }
 

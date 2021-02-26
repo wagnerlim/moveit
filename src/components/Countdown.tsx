@@ -7,19 +7,19 @@ import styles from '../styles/components/Countdown.module.css';
 
 export function Countdown() {
 
-    const { 
+    const {
         minutes,
         seconds,
-        hasFinished, 
+        hasFinished,
         startCountdown,
         resetCountdown,
         isActive
-      } = useContext(CountdownContext);  
+    } = useContext(CountdownContext);
 
     const [minutesLeft, minutesRight] = String(minutes).padStart(2, '0').split('');
     const [secondsLeft, secondsRight] = String(seconds).padStart(2, '0').split('');
 
-   
+
 
     return (
         <div>
@@ -36,37 +36,39 @@ export function Countdown() {
             </div>
 
             {hasFinished ? (
-               <button 
-               disabled
-               className={styles.countdownButton}
-               >
-                   Ciclo encerrado <img src="icons/check.svg" alt="Check"/>
-               </button>
-            ): (
-                <>
-                    {isActive ? (
-                        <button
-                            type="button"
-                            className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
-                            onClick={resetCountdown}
-                        >
-                            Abandonar ciclo
-                            
-                        </button>
+                <button
+                    disabled
+                    className={styles.countdownButton}
+                >
+                    Ciclo encerrado <img src="icons/check.svg" alt="Check" />
+                </button>
+            ) : (
+                    <>
+                        {isActive ? (
+                            <button
+                                type="button"
+                                className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
+                                onClick={resetCountdown}
+                            >
+                                Abandonar ciclo
+                                <span><img src="icons/close.svg" alt="" /></span>
+
+                            </button>
                         ) : (
-                        
-                        <button
-                            type="button"
-                            className={`${styles.countdownButton}`}
-                            onClick={startCountdown}
-                        >
-                            Iniciar um ciclo
-                            
-                        </button>
-                    
-                    ) } 
-                </> 
-            ) }
+
+                                <button
+                                    type="button"
+                                    className={`${styles.countdownButton}`}
+                                    onClick={startCountdown}
+                                >
+                                    Iniciar um ciclo
+                                    <span><img src="" alt="" /></span>
+
+                                </button>
+
+                            )}
+                    </>
+                )}
 
         </div>
     );

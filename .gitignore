@@ -37,3 +37,5 @@ pages/index.js
 pages/api/hello.js
 styles/globals.css
 styles/Home.module.css
+
+.vercel
