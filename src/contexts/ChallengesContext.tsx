@@ -1,5 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import challenges from '../../challenges.json'
+import Cookies from 'js-cookie';
+
+
 
 interface Challenge {
   type: 'body' | 'eye';
@@ -23,14 +26,21 @@ interface ChallengsContextData {
 
 interface ChalllengesProviderProps {
   children: ReactNode;
+  level: number;
+  currentExperience: number;
+  challengesCompleted: number;
 }
+
+
 
 export const ChallengesContext = createContext({} as ChallengsContextData);
 
-export function ChallengesProvider({ children }: ChalllengesProviderProps) {
-  const [level, setLevel] = useState(1);
-  const [currentExperience, setCurrentExperience] = useState(0);
-  const [challengesCompleted, setChallengesCompleted] = useState(0);
+export function ChallengesProvider({ children, ...rest }: ChalllengesProviderProps) {
+
+  const [level, setLevel] = useState(rest.level ?? 1);
+  const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
+  const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0);
+
   const [activeChallenge, setActiveChallenge] = useState(null);
 
   const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
@@ -38,6 +48,12 @@ export function ChallengesProvider({ children }: ChalllengesProviderProps) {
   useEffect(() => {
     Notification.requestPermission();
   }, [])
+
+  useEffect(() => {
+    Cookies.set('level', String(level))
+    Cookies.set('currentExperience', String(currentExperience))
+    Cookies.set('challengesCompleted', String(challengesCompleted))
+  }, [level, currentExperience, challengesCompleted])
 
   function levelUp() {
     setLevel(level + 1);
@@ -83,7 +99,7 @@ export function ChallengesProvider({ children }: ChalllengesProviderProps) {
     setActiveChallenge(null);
     setChallengesCompleted(challengesCompleted + 1);
   }
-//Parte da mudança que fiz para a perca de exp
+  //Parte da mudança que fiz para a perca de exp
   function failedChallenge() {
     const { amount } = activeChallenge;
     let loseExp = amount / 2;
@@ -104,7 +120,7 @@ export function ChallengesProvider({ children }: ChalllengesProviderProps) {
         setCurrentExperience(finalExperience);
     } else
       setCurrentExperience(finalExperience);
-      resetChallenge();
+    resetChallenge();
 
   }
 
@@ -120,7 +136,7 @@ export function ChallengesProvider({ children }: ChalllengesProviderProps) {
         resetChallenge,
         experienceToNextLevel,
         completeChallenge,
-      //e aqui também
+        //e aqui também
         failedChallenge
 
       }}
